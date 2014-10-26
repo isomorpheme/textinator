@@ -16,8 +16,8 @@ def value_to_char(value, palette, value_range=(0, 256)):
 
 @click.command()
 @click.argument('image', type=click.File('rb'))
-@click.argument('out', type=click.File('r'), default='-',
-    required=False)
+@click.argument('out', type=click.File('wt'), default='-',
+                required=False)
 @click.option('-p', '--palette', default='█▓▒░ ',
     help="A custom palette for rendering images. Goes from dark to bright.")
 @click.option('-w', '--width', type=click.INT,
