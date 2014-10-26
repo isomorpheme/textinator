@@ -19,16 +19,28 @@ def value_to_char(value, palette, value_range=(0, 256)):
 @click.argument('out', type=click.File('wt'), default='-',
                 required=False)
 @click.option('-p', '--palette', default='█▓▒░ ',
-    help="A custom palette for rendering images. Goes from dark to bright.")
+              help="A custom palette for rendering images. Goes from dark to bright.")
 @click.option('-w', '--width', type=click.INT,
-    help="Width of output. If height is not given, the image will be proportionally scaled.")
+              help="Width of output. If height is not given, the image will be proportionally scaled.")
 @click.option('-h', '--height', type=click.INT,
-    help="Height of output. If width is not given, the image will be proportionally scaled.")
-def convert(image, palette, out, width, height):
+              help="Height of output. If width is not given, the image will be proportionally scaled.")
+@click.option('--correct/--no-correct', default=True,
+              help="Wether to account for the proportions of monospaced characters. On by default.")
+@click.option('--resample', default='nearest',
+              type=click.Choice(['nearest', 'bilinear', 'bicubic', 'antialias']),
+              help="Filter to use for resampling. Default is nearest.")
+@click.option('--newlines/--no-newlines', default=False,
+              help="Wether to add a newline after each row.")
+def convert(image, out, width, height,
+            palette, correct, resample):
     """
     Converts an input image to a text representation.
     Writes to stdout by default. Optionally takes another file as a second output.
-    Supported filetypes: anything PIL supports. For JPEG etc., install the prerequisites.
+
+    Supports most filetypes, except JPEG.
+    For that you need to install libjpeg.
+    For more info see:\n
+    http://pillow.readthedocs.org/installation.html#external-libraries
     """
 
     original = Image.open(image)
