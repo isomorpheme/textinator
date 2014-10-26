@@ -31,17 +31,16 @@ def convert(image, out, width, height,
     """
 
     if not width or height:
-        width, height = click.get_terminal_size()
-
-    if width and not height:
-        height = width
-    if height and not width:
-        width = height
+        size = click.get_terminal_size()
+    elif width and not height:
+        size = (width, width)
+    elif height and not width:
+        size = (height, height)
 
     original = Image.open(image)
 
     resized = original.copy()
-    resized.thumbnail((height, width))
+    resized.thumbnail(size)
 
     bw = resized.convert(mode="L")
 
