@@ -57,11 +57,22 @@ def convert(image, out, width, height,
     resized.thumbnail((height, width))
 
     bw = resized.convert(mode="L")
-    o_width, o_height = bw.size
 
-    for y in range(o_height):
+    for line in build_lines(bw, newlines):
+        click.echo(line)
+
+
+def build_lines(image, newlines=True):
+    width, height = image.size
+
+    for y in range(height):
         line = ''
-        for x in range(o_width):
+
+        for x in range(width):
             pixel = bw.getpixel((x, y))
             line += value_to_char(pixel, palette)
-        click.echo(line)
+            if newlines:
+                line += '\n'
+
+        yield line
+
