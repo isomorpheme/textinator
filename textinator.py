@@ -43,18 +43,25 @@ def convert(image, out, width, height,
     http://pillow.readthedocs.org/installation.html#external-libraries
     """
 
+    if not width or height:
+        width, height = 80, 24
+
+    if width and not height:
+        height = width
+    if height and not width:
+        width = height
+
     original = Image.open(image)
-    width, height = original.size
 
-    thumb = original.copy()
-    thumb.thumbnail(80)
+    resized = original.copy()
+    resized.thumbnail((height, width))
 
-    bw = thumb.convert(mode="L")
-    width, height = bw.size
+    bw = resized.convert(mode="L")
+    o_width, o_height = bw.size
 
-    for y in range(height):
+    for y in range(o_height):
         line = ''
-        for x in range(width):
+        for x in range(o_width):
             pixel = bw.getpixel((x, y))
             line += value_to_char(pixel, palette)
         click.echo(line)
