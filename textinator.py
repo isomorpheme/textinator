@@ -32,7 +32,7 @@ def value_to_char(value, palette, value_range=(0, 256)):
 @click.option('--newlines/--no-newlines', default=False,
               help="Wether to add a newline after each row.")
 def convert(image, out, width, height,
-            palette, correct, resample):
+            palette, resample, correct, newlines):
     """
     Converts an input image to a text representation.
     Writes to stdout by default. Optionally takes another file as a second output.
