@@ -45,11 +45,11 @@ def convert(image, out, width, height,
 
     bw = resized.convert(mode="L")
 
-    for line in build_lines(bw, newlines):
+    for line in build_lines(bw, palette, newlines):
         click.echo(line)
 
 
-def build_lines(image, newlines=True):
+def build_lines(image, palette, newlines=True):
     width, height = image.size
 
     for y in range(height):
