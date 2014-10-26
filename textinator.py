@@ -31,7 +31,7 @@ def convert(image, out, width, height,
     """
 
     if not width or height:
-        width, height = 80, 24
+        width, height = click.get_terminal_size()
 
     if width and not height:
         height = width
