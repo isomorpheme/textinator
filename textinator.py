@@ -1,6 +1,13 @@
 import click
 from PIL import Image
 
+_resample_methods = [
+    'nearest': Image.NEAREST,
+    'bilinear': Image.BILINEAR,
+    'bicubic': Image.BICUBIC,
+    'antialias': Image.ANTIALIAS
+]
+
 @click.command()
 @click.argument('image', type=click.File('rb'))
 @click.argument('out', type=click.File('wt'), default='-',
@@ -13,11 +20,11 @@ from PIL import Image
               help="Height of output. If width is not given, the image will be proportionally scaled.")
 @click.option('--correct/--no-correct', default=True,
               help="Wether to account for the proportions of monospaced characters. On by default.")
-@click.option('--resample', default='nearest',
+@click.option('--resample', default='antialias',
               type=click.Choice(['nearest', 'bilinear', 'bicubic', 'antialias']),
-              help="Filter to use for resampling. Default is nearest.")
+              help="Filter to use for resampling. Default is antialias.")
 @click.option('--newlines/--no-newlines', default=False,
-              help="Wether to add a newline after each row.")
+              help="Wether to add a newline after each output row.")
 def convert(image, out, width, height,
             palette, resample, correct, newlines):
     """
@@ -40,7 +47,7 @@ def convert(image, out, width, height,
     original = Image.open(image)
 
     resized = original.copy()
-    resized.thumbnail(size)
+    resized.thumbnail(size, resample=_resample_methods[resample])
 
     bw = resized.convert(mode="L")
 
