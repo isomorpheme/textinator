@@ -23,7 +23,7 @@ _resample_methods = {
 @click.option('--resample', default='antialias',
               type=click.Choice(['nearest', 'bilinear', 'bicubic', 'antialias']),
               help="Filter to use for resampling. Default is antialias.")
-@click.option('--newlines/--no-newlines', default=False,
+@click.option('--newlines/--no-newlines', default=True,
               help="Wether to add a newline after each output row.")
 def convert(image, out, width, height,
             palette, resample, correct, newlines):
