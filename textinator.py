@@ -25,8 +25,10 @@ _resample_methods = {
               help="Filter to use for resampling. Default is antialias.")
 @click.option('--newlines/--no-newlines', default=True,
               help="Wether to add a newline after each output row.")
-def convert(image, out, width, height,
-            palette, resample, correct, newlines):
+@click.option('--debug', is_flag=True,
+              help="Debug mode.")
+def convert(image, out, width, height, palette,
+            resample, correct, newlines, debug):
     """
     Converts an input image to a text representation.
     Writes to stdout by default. Optionally takes another file as a second output.
