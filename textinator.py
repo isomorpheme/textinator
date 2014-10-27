@@ -39,22 +39,40 @@ def convert(image, out, width, height, palette,
     http://pillow.readthedocs.org/installation.html#external-libraries
     """
 
-    if not width or height:
-        size = click.get_terminal_size()
-    elif width and not height:
-        size = (width, width)
-    elif height and not width:
-        size = (height, height)
-
     original = Image.open(image)
+    if debug: original.show()
 
-    resized = original.copy()
-    resized.thumbnail(size, resample=_resample_methods[resample])
+    original_width, original_height = original.size
+    ratio = min(original_height / original_width,
+                original_width / original_height)
+
+    if not width or height:
+        width, _ = click.get_terminal_size()
+        size = (width, int(width * ratio))
+    elif width and not height:
+        size = (width, int(width * ratio))
+    elif height and not width:
+        size = (int(height * ratio), height)
+    elif width and height:
+        size = (width, height)
+
+    resized = original.resize(size, resample=_resample_methods[resample])
+
+    if debug: resized.show()
+
+    if correct:
+        corrected_size = (size[0], int(size[1] * 0.5))
+        resized = resized.resize(corrected_size, resample=_resample_methods[resample])
+        if debug: resized.show()
 
     bw = resized.convert(mode="L")
 
+    if debug: bw.show()
+
     for line in build_lines(bw, palette, newlines):
         click.echo(line)
+
+    if debug: click.echo(ratio)
 
 
 def build_lines(image, palette, newlines=True):
