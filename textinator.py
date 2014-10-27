@@ -84,8 +84,9 @@ def build_lines(image, palette, newlines=True):
         for x in range(width):
             pixel = image.getpixel((x, y))
             line += value_to_char(pixel, palette)
-            if newlines:
-                line += '\n'
+
+        if newlines:
+            line += '\n'
 
         yield line
 
