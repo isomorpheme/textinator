@@ -26,7 +26,7 @@ _resample_methods = {
 @click.option('--debug', is_flag=True,
               help="Debug mode.")
 def convert(image, out, width, height, palette,
-            resample, correct, newlines, debug):
+            resample, correct, debug):
     """
     Converts an input image to a text representation.
     Writes to stdout by default. Optionally takes another file as a second output.
@@ -67,13 +67,13 @@ def convert(image, out, width, height, palette,
 
     if debug: bw.show()
 
-    for line in build_lines(bw, palette, newlines):
+    for line in build_lines(bw, palette):
         click.echo(line)
 
     if debug: click.echo(ratio)
 
 
-def build_lines(image, palette, newlines=True):
+def build_lines(image, palette):
     width, height = image.size
 
     for y in range(height):
@@ -82,9 +82,6 @@ def build_lines(image, palette, newlines=True):
         for x in range(width):
             pixel = image.getpixel((x, y))
             line += value_to_char(pixel, palette)
-
-        if newlines:
-            line += '\n'
 
         yield line
 
