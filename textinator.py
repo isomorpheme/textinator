@@ -28,12 +28,12 @@ _resample_methods = {
 def convert(image, out, width, height, palette,
             resample, correct, debug):
     """
-    Converts an input image to a text representation.
-    Writes to stdout by default. Optionally takes another file as a second output.
+    Converts INPUT to a text representation.
+    OUT determines the output stream (stdout by default).
 
-    Supports most filetypes, except JPEG.
-    For that you need to install libjpeg.
-    For more info see:\n
+    Supports most image filetypes by default,
+    except for JPEG. For that you need to install libjpeg.
+    \b For more info see:
     http://pillow.readthedocs.org/installation.html#external-libraries
     """
 
