@@ -90,3 +90,7 @@ pyvenv.cfg
 
 # sftp configuration file
 sftp-config.json
+
+# Ignore temporary folder for tests
+.tmp
+.tmp/*
