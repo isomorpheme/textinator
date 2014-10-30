@@ -70,7 +70,8 @@ def convert(image, out, width, height, palette,
     for line in build_lines(bw, palette):
         click.echo(line)
 
-    if debug: click.echo(ratio)
+    if debug: click.echo("Original size {} (ratio {})\nRequest size {}\nResult size {}".format(
+                         original.size, ratio, (width, height), resized.size))
 
 
 def build_lines(image, palette):
