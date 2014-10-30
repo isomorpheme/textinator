@@ -44,13 +44,13 @@ def convert(image, out, width, height, palette,
     ratio = min(original_height / original_width,
                 original_width / original_height)
 
-    if not width or height:
+    if not width and not height:
         width, _ = click.get_terminal_size()
         size = (width, int(width * ratio))
     elif width and not height:
         size = (width, int(width * ratio))
     elif height and not width:
-        size = (int(height * ratio), height)
+        size = (int(height / ratio), height)
     elif width and height:
         size = (width, height)
 
