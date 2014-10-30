@@ -45,19 +45,7 @@ def convert(image, out, width, height, palette,
     if invert:
         palette = palette[::-1]
 
-    original_width, original_height = original.size
-    ratio = min(original_height / original_width,
-                original_width / original_height)
-
-    if not width and not height:
-        width, _ = click.get_terminal_size()
-        size = (width, int(width * ratio))
-    elif width and not height:
-        size = (width, int(width * ratio))
-    elif height and not width:
-        size = (int(height / ratio), height)
-    elif width and height:
-        size = (width, height)
+    size = calculate_size(original.size, (width, height))
 
     resized = original.resize(size, resample=_resample_methods[resample])
 
@@ -77,6 +65,22 @@ def convert(image, out, width, height, palette,
 
     if debug: click.echo("Original size {} (ratio {})\nRequest size {}\nResult size {}".format(
                          original.size, ratio, (width, height), resized.size))
+
+
+def calculate_size(original, target):
+    original_width, original_height = original
+    target_width, target_height = target
+
+    ratio = original_height / original_width
+
+    if target_width and not target_height:
+        size = (target_width, int(target_width * ratio))
+    elif target_height and not target_width:
+        size = (int(target_height / ratio), target_height)
+    elif target_width and target_height:
+        size = (target_width, target_height)
+
+    return size
 
 
 def build_lines(image, palette):
