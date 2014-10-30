@@ -12,8 +12,10 @@ _resample_methods = {
 @click.argument('image', type=click.File('rb'))
 @click.argument('out', type=click.File('wt'), default='-',
                 required=False)
-@click.option('-p', '--palette', default='█▓▒░ ',
+@click.option('-p', '--palette', default=' ░▒▓█',
               help="A custom palette for rendering images. Goes from dark to bright.")
+@click.option('-i', '--invert', is_flag=True,
+              help="Inverts the palette.")
 @click.option('-w', '--width', type=click.INT,
               help="Width of output. If height is not given, the image will be proportionally scaled.")
 @click.option('-h', '--height', type=click.INT,
@@ -26,7 +28,7 @@ _resample_methods = {
 @click.option('--debug', is_flag=True,
               help="Debug mode.")
 def convert(image, out, width, height, palette,
-            resample, correct, debug):
+            invert, resample, correct, debug):
     """
     Converts INPUT to a text representation.
     OUT determines the output stream (stdout by default).
@@ -39,6 +41,9 @@ def convert(image, out, width, height, palette,
 
     original = Image.open(image)
     if debug: original.show()
+
+    if invert:
+        palette = palette[::-1]
 
     original_width, original_height = original.size
     ratio = min(original_height / original_width,
