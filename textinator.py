@@ -19,13 +19,17 @@ _resample_methods = {
 @click.option('-i', '--invert', is_flag=True,
               help="Inverts the palette.")
 @click.option('-w', '--width', type=click.INT,
-              help="Width of output. If height is not given, the image will be proportionally scaled.")
+              help="Width of output. If height is not given,\
+                    the image will be proportionally scaled.")
 @click.option('-h', '--height', type=click.INT,
-              help="Height of output. If width is not given, the image will be proportionally scaled.")
+              help="Height of output. If width is not given,\
+                    the image will be proportionally scaled.")
 @click.option('--correct/--no-correct', default=True,
-              help="Wether to account for the proportions of monospaced characters. On by default.")
+              help="Wether to account for the proportions of\
+                    monospaced characters. On by default.")
 @click.option('-r', '--resample', default='antialias',
-              type=click.Choice(['nearest', 'bilinear', 'bicubic', 'antialias']),
+              type=click.Choice(['nearest', 'bilinear',
+                                 'bicubic', 'antialias']),
               help="Filter to use for resampling. Default is antialias.")
 @click.option('--debug', is_flag=True,
               help="Debug mode.")
@@ -52,7 +56,8 @@ def convert(image, out, width, height, palette,
 
     if correct:
         corrected_size = (size[0], int(size[1] * 0.5))
-        resized = resized.resize(corrected_size, resample=_resample_methods[resample])
+        resized = resized.resize(corrected_size,
+                                 resample=_resample_methods[resample])
 
     bw = resized.convert(mode="L")
 
@@ -60,8 +65,8 @@ def convert(image, out, width, height, palette,
         click.echo(line)
 
     if debug:
-        click.echo("Original size {}\nRequest size {}\nResult size {}".format(
-                   original.size, (width, height), resized.size))
+        click.echo("Original size {}\nRequest size {}\nResult size {}"
+                   .format(original.size, (width, height), resized.size))
 
 
 def calculate_size(original, target):
