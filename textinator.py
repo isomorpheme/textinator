@@ -70,6 +70,15 @@ def convert(image, out, width, height, palette,
 
 
 def calculate_size(original, target):
+    """
+    Proportionally scales image sizes.
+
+    :param tuple original: the original size
+    :param tuple target: the desired size
+    :returns: the result size
+    :rtype: tuple
+    """
+
     original_width, original_height = original
     target_width, target_height = target
 
@@ -86,6 +95,15 @@ def calculate_size(original, target):
 
 
 def build_lines(image, palette):
+    """
+    Generator function that iterates over an image and converts it to a
+    text representation.
+
+    :param :py:class:PIL.Image image: input image
+    :param palette: character palette, ordered from dark to bright
+    :type palette: str or list
+    """
+
     width, height = image.size
 
     for y in range(height):
@@ -99,13 +117,28 @@ def build_lines(image, palette):
 
 
 def value_to_char(value, palette, value_range=(0, 256)):
+    """
+    Takes a grayscale value and maps it to a character in a palette
+
+    :param int value: input colour value
+    :param palette: character palette, ordered from dark to bright
+    :type palette: str or list
+    :param tuple value_range: minimum and maximum value
+    """
+
     palette_range = (0, len(palette))
     mapped = int(scale(value, value_range, palette_range))
     return palette[mapped]
 
 
-def scale(val, src, dst):
+def scale(value, source, destination):
     """
-    Scale the given value from the scale of src to the scale of dst.
+    Linear map a value from a source to a destination range.
+
+    :param int value: original value
+    :param tuple source: source range
+    :param tuple destination: destination range
     """
-    return ((val - src[0]) / (src[1]-src[0])) * (dst[1]-dst[0]) + dst[0]
+
+    return ((value - source[0]) / (source[1]-source[0]))
+    * (destination[1]-destination[0]) + destination[0]
