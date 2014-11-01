@@ -1,12 +1,14 @@
 import click
 from PIL import Image
 
+
 _resample_methods = {
     'nearest': Image.NEAREST,
     'bilinear': Image.BILINEAR,
     'bicubic': Image.BICUBIC,
     'antialias': Image.ANTIALIAS
 }
+
 
 @click.command()
 @click.argument('image', type=click.File('rb'))
