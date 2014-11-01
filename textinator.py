@@ -32,10 +32,16 @@ _resample_methods = {
                     Goes from dark to bright.")
 @click.option('-i', '--invert', is_flag=True,
               help="Inverts the palette.")
+@click.option('-c', '--colour', default='256',
+              type=click.Choice(['8', '16', '256']),
+              help="Enables colour output. This does not disable\
+                    the normal character palette. Rather, the characters\
+                    get a foreground colour corresponding to\
+                    the colour in the original.")
 @click.option('--debug', is_flag=True,
               help="Debug mode.")
-def convert(image, out, width, height, palette,
-            invert, resample, correct, debug):
+def convert(image, out, width, height, correct,
+            resample, palette, invert, colour, debug):
     """
     Converts INPUT to a text representation.
     OUT determines the output stream (stdout by default).
