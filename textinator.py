@@ -59,8 +59,9 @@ def convert(image, out, width, height, palette,
     for line in build_lines(bw, palette):
         click.echo(line)
 
-    if debug: click.echo("Original size {}\nRequest size {}\nResult size {}".format(
-                         original.size, (width, height), resized.size))
+    if debug:
+        click.echo("Original size {}\nRequest size {}\nResult size {}".format(
+                   original.size, (width, height), resized.size))
 
 
 def calculate_size(original, target):
