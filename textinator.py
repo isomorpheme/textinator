@@ -42,7 +42,6 @@ def convert(image, out, width, height, palette,
     """
 
     original = Image.open(image)
-    if debug: original.show()
 
     if invert:
         palette = palette[::-1]
@@ -51,16 +50,11 @@ def convert(image, out, width, height, palette,
 
     resized = original.resize(size, resample=_resample_methods[resample])
 
-    if debug: resized.show()
-
     if correct:
         corrected_size = (size[0], int(size[1] * 0.5))
         resized = resized.resize(corrected_size, resample=_resample_methods[resample])
-        if debug: resized.show()
 
     bw = resized.convert(mode="L")
-
-    if debug: bw.show()
 
     for line in build_lines(bw, palette):
         click.echo(line)
