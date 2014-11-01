@@ -14,10 +14,6 @@ _resample_methods = {
 @click.argument('image', type=click.File('rb'))
 @click.argument('out', type=click.File('wt'), default='-',
                 required=False)
-@click.option('-p', '--palette', default=' ░▒▓█',
-              help="A custom palette for rendering images. Goes from dark to bright.")
-@click.option('-i', '--invert', is_flag=True,
-              help="Inverts the palette.")
 @click.option('-w', '--width', type=click.INT,
               help="Width of output. If height is not given,\
                     the image will be proportionally scaled.")
@@ -31,6 +27,11 @@ _resample_methods = {
               type=click.Choice(['nearest', 'bilinear',
                                  'bicubic', 'antialias']),
               help="Filter to use for resampling. Default is antialias.")
+@click.option('-p', '--palette', default=' ░▒▓█',
+              help="A custom palette for rendering images.\
+                    Goes from dark to bright.")
+@click.option('-i', '--invert', is_flag=True,
+              help="Inverts the palette.")
 @click.option('--debug', is_flag=True,
               help="Debug mode.")
 def convert(image, out, width, height, palette,
