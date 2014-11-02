@@ -138,6 +138,67 @@ def value_to_char(value, palette, value_range=(0, 256)):
     return palette[mapped]
 
 
+def rgb_to_term(rgb, mode='256'):
+    """
+    Maps RGB colours to terminal colours, supporting either 8 or 256
+    colour terminals.
+
+    Part of this function is ported from this script:
+
+
+    :param tuple rgb: 3-tuple with RGB colour values
+    :param str mode: a string containing either '8', '16', or '256', denoting
+        which colour range to convert to
+    :returns: a value for use in ANSI colour codes
+    :rtype: int
+    """
+
+    # Lookup tables for 8 and 16 colour mode
+    # Source: http://www.calmar.ws/vim/256-xterm-24bit-rgb-color-chart.html
+    _8_colours = [
+        (0x00, 0x00, 0x00),
+        (0x80, 0x00, 0x00),
+        (0x00, 0x80, 0x00),
+        (0x80, 0x80, 0x00),
+        (0x00, 0x00, 0x80),
+        (0x80, 0x00, 0x80),
+        (0x00, 0x80, 0x80),
+        (0xc0, 0xc0, 0xc0)
+    ]
+
+    _16_colours = _8_colours + [
+        (0x80, 0x80, 0x80),
+        (0xff, 0x00, 0x00),
+        (0x00, 0xff, 0x00),
+        (0xff, 0xff, 0x00),
+        (0x00, 0x00, 0xff),
+        (0xff, 0x00, 0xff),
+        (0x00, 0xff, 0xff),
+        (0xff, 0xff, 0xff),
+    ]
+
+    r, g, b = rgb
+
+    # Some math I don't fully understand :(
+    # Ported from: https://github.com/posva/catimg/blob/master/catimg
+    if mode == '256':
+        if r == g == b:
+            return 232 + r * 23 / 255
+        else:
+            return (
+                16
+                + r * 5 / 255 * 36
+                + g * 5 / 255 * 6
+                + b * 5 / 255
+            )
+    elif mode == '16':
+        raise NotImplementedError()
+    elif mode == '8':
+        raise NotImplementedError()
+    else:
+        raise ValueError("Invalid colour mode (must be 256|16|8)")
+
+
 def scale(value, source, destination):
     """
     Linear map a value from a source to a destination range.
