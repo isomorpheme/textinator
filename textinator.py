@@ -51,6 +51,9 @@ def convert(image, out, width, height, palette,
     if invert:
         palette = palette[::-1]
 
+    if not width and not height:
+        width, _ = click.get_terminal_size()
+
     size = calculate_size(original.size, (width, height))
 
     resized = original.resize(size, resample=_resample_methods[resample])
