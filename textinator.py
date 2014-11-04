@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import click
 from PIL import Image
 
@@ -56,6 +59,9 @@ def convert(image, out, width, height, correct,
 
     if invert:
         palette = palette[::-1]
+
+    if not width and not height:
+        width, _ = click.get_terminal_size()
 
     size = calculate_size(original.size, (width, height))
 
@@ -131,7 +137,11 @@ def value_to_char(value, palette, value_range=(0, 256)):
     :param palette: character palette, ordered from dark to bright
     :type palette: str or list
     :param tuple value_range: minimum and maximum value
+    :raises ValueError: if the input value does not fall within value_range
     """
+
+    if value not in range(*value_range):
+        raise ValueError("Input value not in expected range.")
 
     palette_range = (0, len(palette))
     mapped = int(scale(value, value_range, palette_range))
@@ -206,7 +216,11 @@ def scale(value, source, destination):
     :param int value: original value
     :param tuple source: source range
     :param tuple destination: destination range
+    :rtype: float
     """
 
-    return ((value - source[0]) / (source[1]-source[0]))
-    * (destination[1]-destination[0]) + destination[0]
+    return (
+        ((value - source[0]) / (source[1]-source[0]))
+        * (destination[1]-destination[0])
+        + destination[0]
+    )
