@@ -141,5 +141,8 @@ def scale(value, source, destination):
     :param tuple destination: destination range
     """
 
-    return ((value - source[0]) / (source[1]-source[0]))
-    * (destination[1]-destination[0]) + destination[0]
+    return (
+        ((value - source[0]) / (source[1]-source[0]))
+        * (destination[1]-destination[0])
+        + destination[0]
+    )
