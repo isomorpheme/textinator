@@ -149,6 +149,7 @@ def scale(value, source, destination):
     :param int value: original value
     :param tuple source: source range
     :param tuple destination: destination range
+    :rtype: float
     """
 
     return (
