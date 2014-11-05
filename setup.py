@@ -6,7 +6,8 @@ setup(
     py_modules=['convertinator'],
     install_requires=[
         'Click',
-        'Pillow'
+        'Pillow',
+        'ansi'
     ],
     entry_points='''
         [console_scripts]
