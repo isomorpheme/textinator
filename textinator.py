@@ -51,7 +51,7 @@ def convert(image, out, width, height, correct,
             resample, palette, invert, colour, debug):
     """
     Converts INPUT to a text representation.
-    OUT determines the output stream (stdout by default).
+    OUT is an optional file to save to.
 
     Supports most image filetypes by default,
     except for JPEG. For that you need to install libjpeg.
