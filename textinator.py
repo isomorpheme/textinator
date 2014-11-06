@@ -123,6 +123,7 @@ def build_lines(image, palette, mode):
     """
 
     width, height = image.size
+
     bw = image.convert(mode='L')
 
     for y in range(height):
@@ -130,7 +131,6 @@ def build_lines(image, palette, mode):
 
         for x in range(width):
             value = bw.getpixel((x, y))
-
             char = value_to_char(value, palette)
 
             if mode:
