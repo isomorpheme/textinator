@@ -6,6 +6,7 @@ from PIL import Image
 from ansi.colour.rgb import rgb8, rgb16, rgb256
 from ansi.colour.fx import reset
 
+_default_palette = ' ░▒▓█'
 
 _resample_methods = {
     'nearest': Image.NEAREST,
@@ -20,28 +21,30 @@ _resample_methods = {
 @click.argument('out', type=click.File('wt'), default='-',
                 required=False)
 @click.option('-w', '--width', type=click.INT,
-              help="Width of output. If height is not given,\
-                    the image will be proportionally scaled.")
+              help="Width of output. If height is not given, "
+                   "the image will be proportionally scaled.")
 @click.option('-h', '--height', type=click.INT,
-              help="Height of output. If width is not given,\
-                    the image will be proportionally scaled.")
+              help="Height of output. If width is not given, "
+                    "the image will be proportionally scaled. "
+                    "If neither width nor height are given, "
+                    "the current terminal width is used instead.")
 @click.option('--correct/--no-correct', default=True,
-              help="Wether to account for the proportions of\
-                    monospaced characters. On by default.")
+              help="Wether to account for the proportions of "
+                   "monospaced characters. On by default.")
 @click.option('-r', '--resample', default='antialias',
               type=click.Choice(['nearest', 'bilinear',
                                  'bicubic', 'antialias']),
               help="Filter to use for resampling. Default is antialias.")
-@click.option('-p', '--palette', default=' ░▒▓█',
-              help="A custom palette for rendering images.\
-                    Goes from dark to bright.")
+@click.option('-p', '--palette', default=_default_palette,
+              help="A custom palette for rendering images, "
+                   "from from dark to bright.")
 @click.option('-i', '--invert', is_flag=True,
               help="Inverts the palette.")
 @click.option('-c', '--colour', type=click.Choice(['8', '16', '256']),
-              help="Enables colour output. This does not disable\
-                    the normal character palette. Rather, the characters\
-                    get a foreground colour corresponding to\
-                    the colour in the original.")
+              help="Enables colour output. This does not disable "
+                   "the normal character palette. Rather, the characters "
+                   "get a foreground colour corresponding to "
+                   "the colour in the original.")
 @click.option('--debug', is_flag=True,
               help="Debug mode.")
 def convert(image, out, width, height, correct,
