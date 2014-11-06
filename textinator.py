@@ -37,8 +37,7 @@ _resample_methods = {
                     Goes from dark to bright.")
 @click.option('-i', '--invert', is_flag=True,
               help="Inverts the palette.")
-@click.option('-c', '--colour', default='256',
-              type=click.Choice(['8', '16', '256']),
+@click.option('-c', '--colour', type=click.Choice(['8', '16', '256']),
               help="Enables colour output. This does not disable\
                     the normal character palette. Rather, the characters\
                     get a foreground colour corresponding to\
