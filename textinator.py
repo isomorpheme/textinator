@@ -166,11 +166,11 @@ def value_to_char(value, palette, value_range=(0, 256)):
         raise ValueError("Input value not in expected range.")
 
     palette_range = (0, len(palette))
-    mapped = int(scale(value, value_range, palette_range))
+    mapped = int(_scale(value, value_range, palette_range))
     return palette[mapped]
 
 
-def scale(value, source, destination):
+def _scale(value, source, destination):
     """
     Linear map a value from a source to a destination range.
 
