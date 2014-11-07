@@ -1,6 +1,6 @@
 Textinator
 ==========
-Textinator is a command line program that converts images to a text representation. You can use any set of characters to convert an image into. Furthermore, colour support is also present for those of you who want to view cat pictures in their terminal.
+Textinator is a Python 3 command line program that converts images to text, allowing you to view them from the console. It uses a palette by default, but you can use any set of characters to displya an image. There is also a colour mode using ANSI colour codes.
 
 Installation
 ============
@@ -46,3 +46,9 @@ Options:
   --help                          Show this message and exit.
 ```
 
+Ideas
+=====
+- [ ] More control over how pixels get translated to characters (e.g. 2 characters per pixel)
+- [ ] Dithering
+- [ ] Character fitting (i.e. use characters to imitate image features)
+- [ ] Animation (.gif and png sequence)
