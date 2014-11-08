@@ -38,10 +38,13 @@ Options:
   -p, --palette TEXT              A custom palette for rendering images, from
                                   from dark to bright.
   -i, --invert                    Inverts the palette.
-  -c, --colour [8|16|256]         Enables colour output. This does not disable
+  -c, --colour                    Enables colour output. This does not disable
                                   the normal character palette. Rather, the
                                   characters get a foreground colour
                                   corresponding to the colour in the original.
+  --background / --foreground     Wether to colour the foreground or
+                                  background of characters. Does nothing if
+                                  --colour is not present
   --debug                         Debug mode.
   --help                          Show this message and exit.
 ```

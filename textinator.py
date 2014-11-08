@@ -45,10 +45,13 @@ _resample_methods = {
                    "the normal character palette. Rather, the characters "
                    "get a foreground colour corresponding to "
                    "the colour in the original.")
+@click.option('--background/--foreground', default=False,
+              help="Wether to colour the foreground or background of characters. "
+              "Does nothing if --colour is not present")
 @click.option('--debug', is_flag=True,
               help="Debug mode.")
-def convert(image, out, width, height, correct,
-            resample, palette, invert, colour, debug):
+def convert(image, out, width, height, correct, resample,
+            palette, invert, colour, background, debug):
     """
     Converts INPUT to a text representation.
     OUT is an optional file to save to.
@@ -81,7 +84,7 @@ def convert(image, out, width, height, correct,
     else:
         adjusted = resized.convert(mode='L')
 
-    for line in build_lines(adjusted, palette, colour):
+    for line in build_lines(adjusted, palette, colour, background):
         click.echo(line)
 
     if debug:
@@ -115,7 +118,7 @@ def calculate_size(original, target):
     return size
 
 
-def build_lines(image, palette, colour):
+def build_lines(image, palette, colour, background):
     """
     Generator function that iterates over an image and converts it to a
     text representation.
@@ -138,7 +141,14 @@ def build_lines(image, palette, colour):
 
             if colour:
                 pixel = image.getpixel((x, y))
-                char = rgb256(*pixel) + char + str(reset)
+
+                ansi_colour = rgb256(*pixel)
+
+                if background:
+                    ansi_colour = ansi_colour.replace('38', '48', 1)
+                    # count = 1 to prevent the actual colour 38 becoming 48
+
+                char = ansi_colour + char + str(reset)
 
             line += char
 
