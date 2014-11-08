@@ -50,5 +50,5 @@ Ideas
 =====
 - More control over how pixels get translated to characters (e.g. 2 characters per pixel)
 - Dithering
-- Character fitting (i.e. use characters to imitate image features)
+- [Smarter conversion](http://vectorpoem.com/edscii/#imgconv)
 - Animation (.gif and png sequence)
