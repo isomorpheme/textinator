@@ -3,7 +3,7 @@
 
 import click
 from PIL import Image
-from ansi.colour.rgb import rgb8, rgb16, rgb256
+from ansi.colour.rgb import rgb256
 from ansi.colour.fx import reset
 
 _default_palette = ' ░▒▓█'
@@ -40,7 +40,7 @@ _resample_methods = {
                    "from from dark to bright.")
 @click.option('-i', '--invert', is_flag=True,
               help="Inverts the palette.")
-@click.option('-c', '--colour', type=click.Choice(['8', '16', '256']),
+@click.option('-c', '--colour', is_flag=True,
               help="Enables colour output. This does not disable "
                    "the normal character palette. Rather, the characters "
                    "get a foreground colour corresponding to "
@@ -76,10 +76,10 @@ def convert(image, out, width, height, correct,
         resized = resized.resize(corrected_size,
                                  resample=_resample_methods[resample])
 
-    if not colour:
-        adjusted = resized.convert(mode='L')
-    else:
+    if colour:
         adjusted = resized.convert(mode='RGB')
+    else:
+        adjusted = resized.convert(mode='L')
 
     for line in build_lines(adjusted, palette, colour):
         click.echo(line)
@@ -114,7 +114,7 @@ def calculate_size(original, target):
     return size
 
 
-def build_lines(image, palette, mode):
+def build_lines(image, palette, colour):
     """
     Generator function that iterates over an image and converts it to a
     text representation.
@@ -129,24 +129,15 @@ def build_lines(image, palette, mode):
     bw = image.convert(mode='L')
 
     for y in range(height):
-        line = ''
+        line = str()
 
         for x in range(width):
             value = bw.getpixel((x, y))
             char = value_to_char(value, palette)
 
-            if mode:
+            if colour:
                 pixel = image.getpixel((x, y))
-
-                if mode == '256':
-                    char = rgb256(*pixel) + char + str(reset)
-                elif mode == '16':
-                    char = rgb16(*pixel) + char + str(reset)
-                elif mode == '8':
-                    char = rgb8(*pixel) + char + str(reset)
-                else:
-                    raise ValueError("Invalid colour mode. ('{}')\
-                        Use either '8', '16' or '256'".format(mode))
+                char = rgb256(*pixel) + char + str(reset)
 
             line += char
 
