@@ -16,8 +16,8 @@ Usage
 ```
 Usage: textinate [OPTIONS] IMAGE [OUT]
 
-  Converts INPUT to a text representation. OUT determines the output stream
-  (stdout by default).
+  Converts INPUT to a text representation. OUT is an optional file to save
+  to.
 
   Supports most image filetypes by default, except for JPEG. For that you
   need to install libjpeg. For more info see:
@@ -48,7 +48,7 @@ Options:
 
 Ideas
 =====
-- [ ] More control over how pixels get translated to characters (e.g. 2 characters per pixel)
-- [ ] Dithering
-- [ ] Character fitting (i.e. use characters to imitate image features)
-- [ ] Animation (.gif and png sequence)
+- More control over how pixels get translated to characters (e.g. 2 characters per pixel)
+- Dithering
+- Character fitting (i.e. use characters to imitate image features)
+- Animation (.gif and png sequence)
