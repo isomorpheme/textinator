@@ -4,7 +4,7 @@ Textinator is a Python 3 command line program that converts images to text, allo
 
 Installation
 ============
-If you're not on Windows and want to convert JPEG or TIFF files, you will **first** need to install some dependencies. In most cases, you just need to install `libjpeg-dev` and `libtiff-dev` from your package manager (e.g. `apt-get` or `brew`). See [the Pillow documentation page external libraries](http://pillow.readthedocs.org/installation.html#external-libraries) for more info.
+If you're not on Windows and want to convert JPEG or TIFF files, you will **first** need to install some dependencies. In most cases, you just need to install `libjpeg-dev` and `libtiff-dev` from your package manager (e.g. `apt-get` or `brew`). See [the Pillow documentation page on external libraries](http://pillow.readthedocs.org/installation.html#external-libraries) for more info.
 
 In any case, run this command to install Textinator:
 ```
