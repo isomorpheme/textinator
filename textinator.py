@@ -87,6 +87,7 @@ def convert(image, out, width, height, correct,
     if debug:
         click.echo("Original size {}\nRequest size {}\nResult size {}"
                    .format(original.size, (width, height), resized.size))
+        adjusted.show()
 
 
 def calculate_size(original, target):
