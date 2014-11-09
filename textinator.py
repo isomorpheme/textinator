@@ -46,8 +46,9 @@ _resample_methods = {
                    "get a foreground colour corresponding to "
                    "the colour in the original.")
 @click.option('--background/--foreground', default=False,
-              help="Wether to colour the foreground or background of characters. "
-              "Does nothing if --colour is not present")
+              help="Wether to colour the foreground or"
+              "background of characters. Does nothing if --colour"
+              "is not present")
 @click.option('--debug', is_flag=True,
               help="Debug mode.")
 def convert(image, out, width, height, correct, resample,
