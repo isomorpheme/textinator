@@ -163,7 +163,7 @@ def value_to_char(value, palette, value_range=(0, 256)):
     :param int value: input colour value
     :param palette: character palette, ordered from dark to bright
     :type palette: str or list
-    :param tuple value_range: minimum and maximum value
+    :param tuple value_range: minimum and maximum value, exclusive
     :raises ValueError: if the input value does not fall within value_range
     """
 
