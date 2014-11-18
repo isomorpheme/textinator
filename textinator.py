@@ -147,6 +147,7 @@ def build_lines(image, palette, colour, background):
 
                 if background:
                     ansi_colour = ansi_colour.replace('38', '48', 1)
+                    # ugly hack to change foreground colour to background
                     # count = 1 to prevent the actual colour 38 becoming 48
 
                 char = ansi_colour + char + str(reset)
