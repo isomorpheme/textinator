@@ -64,6 +64,7 @@ def convert(image, out, width, height, correct, resample,
     """
 
     original = Image.open(image)
+    original = original.convert(mode='RGB')
 
     if invert:
         palette = palette[::-1]
@@ -80,18 +81,13 @@ def convert(image, out, width, height, correct, resample,
         resized = resized.resize(corrected_size,
                                  resample=_resample_methods[resample])
 
-    if colour:
-        adjusted = resized.convert(mode='RGB')
-    else:
-        adjusted = resized.convert(mode='L')
-
-    for line in build_lines(adjusted, palette, colour, background):
+    for line in build_lines(resized, palette, colour, background):
         click.echo(line)
 
     if debug:
         click.echo("Original size {}\nRequest size {}\nResult size {}"
                    .format(original.size, (width, height), resized.size))
-        adjusted.show()
+        resized.show()
 
 
 def calculate_size(original, target):
@@ -127,53 +123,54 @@ def build_lines(image, palette, colour, background):
     :param :py:class:PIL.Image image: input image
     :param palette: character palette, ordered from dark to bright
     :type palette: str or list
+    :param bool colour: Wether to use ANSI colour codes
+    :param bool background: If true, colour background instead of foreground
     """
 
     width, height = image.size
-
-    bw = image.convert(mode='L')
 
     for y in range(height):
         line = str()
 
         for x in range(width):
-            value = bw.getpixel((x, y))
-            char = value_to_char(value, palette)
-
-            if colour:
-                pixel = image.getpixel((x, y))
-
-                ansi_colour = rgb256(*pixel)
-
-                if background:
-                    ansi_colour = ansi_colour.replace('38', '48', 1)
-                    # ugly hack to change foreground colour to background
-                    # count = 1 to prevent the actual colour 38 becoming 48
-
-                char = ansi_colour + char + str(reset)
-
+            value = image.getpixel((x, y))
+            char = value_to_char(value, palette,
+                                 colour=colour, background=background)
             line += char
 
         yield line
 
 
-def value_to_char(value, palette, value_range=(0, 256)):
+def value_to_char(value, palette, colour=False, background=False):
     """
-    Takes a grayscale value and maps it to a character in a palette
+    Takes an RGB or grayscale value and maps it to a character in a palette
 
-    :param int value: input colour value
+    :param tuple value: input colour value
     :param palette: character palette, ordered from dark to bright
     :type palette: str or list
-    :param tuple value_range: minimum and maximum value, exclusive
-    :raises ValueError: if the input value does not fall within value_range
+    :param bool colour: Wether to use ANSI colour codes
+    :param bool background: If true, colour background instead of foreground
+    :raises TypeError: if value is not a 3-tuple
     """
 
-    if value not in range(*value_range):
-        raise ValueError("Input value not in expected range.")
+    if type(value) is int or len(value) != 3:
+        raise TypeError("Value should be a 3-tuple")
+
+    r, g, b = value
+    luminosity = 0.2 * r + 0.72 * g + 0.07 * b
 
     palette_range = (0, len(palette))
-    mapped = int(_scale(value, value_range, palette_range))
-    return palette[mapped]
+    mapped = int(_scale(luminosity, (0, 256), palette_range))
+    char = palette[mapped]
+
+    if colour:
+        ansi_colour = rgb256(*value)
+        if background:
+            ansi_colour = ansi_colour.replace('38', '48', 1)
+            # rgb256 returns a preformatted string instead of just a code :(
+        char = ansi_colour + char + str(reset)
+
+    return char
 
 
 def _scale(value, source, destination):

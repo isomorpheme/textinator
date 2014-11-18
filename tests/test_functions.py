@@ -6,7 +6,7 @@ from textinator import build_lines, value_to_char, calculate_size
 def image():
     from PIL import Image
     im = Image.open('tests/images/doge.jpg')
-    return im
+    return im.convert('RGB')
 
 
 @pytest.fixture(scope='module')
@@ -25,15 +25,15 @@ def test_build_lines(image, expected_out):
 
 
 def test_value_to_char():
-    assert value_to_char(50, 'abc', value_range=(0, 100)) == 'b'
-    assert value_to_char(100, 'abcdefghijk') == 'e'
-    assert value_to_char(192, 'abcdefghijk') == 'i'
-    with pytest.raises(ValueError):
-        value_to_char(-200, 'wontwork')
-        value_to_char(260, 'abcdef')
-        value_to_char(200, 'abcdef', value_range=(0, 200))
-        # yes, that should return an error. value_range is non inclusive
-
+    assert value_to_char((50, 200, 150), 'abcdef', colour=True) \
+        == '\x1b[38;5;79md\x1b[0m'
+    assert value_to_char((50, 200, 150), 'abcdef', colour=True, background=True) \
+        == '\x1b[48;5;79md\x1b[0m'
+    assert value_to_char([100]*3, 'abcdefghijk') == 'e'
+    assert value_to_char([192]*3, 'abcdefghijk') == 'i'
+    with pytest.raises(TypeError):
+        value_to_char(200, 'abcdef')
+        value_to_char((2, 4, 5, 6), 'abcdef')
 
 def test_calculate_size():
         # Width know, height unknown
