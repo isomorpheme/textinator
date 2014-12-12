@@ -1,6 +1,6 @@
 Textinator
 ==========
-Textinator is a Python 3 command line program that converts images to text, allowing you to view them from the console. It uses a palette by default, but you can use any set of characters to displya an image. There is also a colour mode using ANSI colour codes.
+Textinator is a Python 3 command line program that converts images to text, allowing you to view them from the console. It uses a palette by default, but you can use any set of characters to display an image. There is also a colour mode using ANSI colour codes.
 
 Installation
 ============
