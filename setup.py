@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='textinator',
@@ -10,7 +10,7 @@ setup(
 
     license='MIT',
 
-    py_modules=['convertinator'],
+    packages=find_packages(),
     install_requires=[
         'click>=3.3, <4',
         'Pillow>=2.6.1, <3',
@@ -18,6 +18,6 @@ setup(
     ],
     entry_points='''
         [console_scripts]
-        textinate=textinator:convert
+        textinator=textinator:textinator
     '''
 )
