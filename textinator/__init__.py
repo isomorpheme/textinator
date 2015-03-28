@@ -1,7 +1,7 @@
 import click
 from PIL import Image
 
-from textinator.data import TextImage, ColourImage, Animation
+from textinator.image import TextImage, ColourImage
 
 _default_palette = '@%8#$VYx*=+:~-. '
 
