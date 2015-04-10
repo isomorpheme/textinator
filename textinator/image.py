@@ -56,6 +56,7 @@ class ColourImage(TextImage):
         colour = rgb256(*value)
         if self.background:
             colour.replace('38', '48', 1)
+            # Modify the ANSI escape code to use bg instead of fg
 
         return colour + char + str(reset)
 
