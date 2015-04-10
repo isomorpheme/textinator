@@ -1,3 +1,6 @@
+from ansi.colour.rgb import rgb256
+from ansi.colour.fx import reset
+
 class TextImage():
     def __init__(self, original, palette):
         self.original = original
@@ -49,9 +52,6 @@ class ColourImage(TextImage):
         super().__init__(*args)
 
     def _value_to_char(self, value):
-        from ansi.colour.rgb import rgb256
-        from ansi.colour.fx import reset
-
         char = super()._value_to_char(value)
         colour = rgb256(*value)
         if self.background:
